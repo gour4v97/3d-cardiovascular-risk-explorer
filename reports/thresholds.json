@@ -1,0 +1,9 @@
+{
+  "thresholds": {
+    "CAD": 0.35,
+    "LAD": 0.35,
+    "LCX": 0.35,
+    "RCA": 0.35
+  },
+  "policy": "Fixed 0.35 recall-favoring operating point; not tuned on held-out outer predictions."
+}
