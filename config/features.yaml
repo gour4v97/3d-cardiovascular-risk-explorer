@@ -1,0 +1,57 @@
+# Form metadata. Clinical reference ranges remain deliberately uncurated until clinician review.
+# The API supplies observed dataset min/max separately and exposes this reference_status to the UI.
+features:
+  Age: {label: Age, group: Demographics, unit: years, reference_status: clinician review required}
+  Weight: {label: Weight, group: Demographics, unit: kg, reference_status: clinician review required}
+  Length: {label: Height, group: Demographics, unit: cm, reference_status: clinician review required}
+  Sex: {label: Sex, group: Demographics, unit: null, reference_status: not applicable}
+  BMI: {label: Body mass index, group: Demographics, unit: kg/m2, reference_status: clinician review required}
+  DM: {label: Diabetes mellitus, group: History and symptoms, unit: null, reference_status: not applicable}
+  HTN: {label: Hypertension, group: History and symptoms, unit: null, reference_status: not applicable}
+  Current Smoker: {label: Current smoker, group: History and symptoms, unit: null, reference_status: not applicable}
+  EX-Smoker: {label: Former smoker, group: History and symptoms, unit: null, reference_status: not applicable}
+  FH: {label: Family history, group: History and symptoms, unit: null, reference_status: not applicable}
+  Obesity: {label: Obesity, group: History and symptoms, unit: null, reference_status: not applicable}
+  CRF: {label: Chronic renal failure, group: History and symptoms, unit: null, reference_status: not applicable}
+  CVA: {label: Cerebrovascular accident, group: History and symptoms, unit: null, reference_status: not applicable}
+  Airway disease: {label: Airway disease, group: History and symptoms, unit: null, reference_status: not applicable}
+  Thyroid Disease: {label: Thyroid disease, group: History and symptoms, unit: null, reference_status: not applicable}
+  CHF: {label: Congestive heart failure, group: History and symptoms, unit: null, reference_status: not applicable}
+  DLP: {label: Dyslipidemia, group: History and symptoms, unit: null, reference_status: not applicable}
+  BP: {label: Blood pressure, group: Examination and ECG, unit: mmHg, reference_status: clinician review required}
+  PR: {label: Pulse rate, group: Examination and ECG, unit: bpm, reference_status: clinician review required}
+  Edema: {label: Edema, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Weak Peripheral Pulse: {label: Weak peripheral pulse, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Lung rales: {label: Lung rales, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Systolic Murmur: {label: Systolic murmur, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Diastolic Murmur: {label: Diastolic murmur, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Typical Chest Pain: {label: Typical chest pain, group: History and symptoms, unit: null, reference_status: not applicable}
+  Dyspnea: {label: Dyspnea, group: History and symptoms, unit: null, reference_status: not applicable}
+  Function Class: {label: Functional class, group: History and symptoms, unit: null, reference_status: clinician review required}
+  Atypical: {label: Atypical chest pain, group: History and symptoms, unit: null, reference_status: not applicable}
+  Nonanginal: {label: Nonanginal pain, group: History and symptoms, unit: null, reference_status: not applicable}
+  LowTH Ang: {label: Low-threshold angina, group: History and symptoms, unit: null, reference_status: not applicable}
+  Q Wave: {label: Q wave, group: Examination and ECG, unit: null, reference_status: not applicable}
+  St Elevation: {label: ST elevation, group: Examination and ECG, unit: null, reference_status: not applicable}
+  St Depression: {label: ST depression, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Tinversion: {label: T-wave inversion, group: Examination and ECG, unit: null, reference_status: not applicable}
+  LVH: {label: Left ventricular hypertrophy, group: Examination and ECG, unit: null, reference_status: not applicable}
+  Poor R Progression: {label: Poor R progression, group: Examination and ECG, unit: null, reference_status: not applicable}
+  BBB: {label: Bundle branch block, group: Examination and ECG, unit: null, reference_status: not applicable}
+  FBS: {label: Fasting blood sugar, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  CR: {label: Creatinine, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  TG: {label: Triglycerides, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  LDL: {label: LDL cholesterol, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  HDL: {label: HDL cholesterol, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  BUN: {label: Blood urea nitrogen, group: Labs and echo, unit: mg/dL, reference_status: clinician review required}
+  ESR: {label: Erythrocyte sedimentation rate, group: Labs and echo, unit: mm/hr, reference_status: clinician review required}
+  HB: {label: Hemoglobin, group: Labs and echo, unit: g/dL, reference_status: clinician review required}
+  K: {label: Potassium, group: Labs and echo, unit: mEq/L, reference_status: clinician review required}
+  Na: {label: Sodium, group: Labs and echo, unit: mEq/L, reference_status: clinician review required}
+  WBC: {label: White blood cells, group: Labs and echo, unit: 10^3/uL, reference_status: clinician review required}
+  Lymph: {label: Lymphocytes, group: Labs and echo, unit: percent, reference_status: clinician review required}
+  Neut: {label: Neutrophils, group: Labs and echo, unit: percent, reference_status: clinician review required}
+  PLT: {label: Platelets, group: Labs and echo, unit: 10^3/uL, reference_status: clinician review required}
+  EF-TTE: {label: Ejection fraction, group: Labs and echo, unit: percent, reference_status: clinician review required}
+  Region RWMA: {label: Regional wall motion abnormality, group: Labs and echo, unit: null, reference_status: not applicable}
+  VHD: {label: Valvular heart disease, group: Labs and echo, unit: null, reference_status: not applicable}

@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local run artifacts (regenerable via make train)
+# (models/ and reports/ are committed intentionally: they are the reviewed,
+#  validated deliverables. Uncomment to exclude and regenerate locally.)
+# models/*.joblib
+# reports/

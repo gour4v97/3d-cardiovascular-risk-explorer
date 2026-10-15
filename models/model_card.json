@@ -1,0 +1,66 @@
+{
+  "dataset": "UCI Z-Alizadeh Sani Extension",
+  "records": 303,
+  "original_columns": 59,
+  "input_features": 54,
+  "targets": [
+    "CAD",
+    "LAD",
+    "LCX",
+    "RCA"
+  ],
+  "validation": "Nested repeated stratified 5-fold CV (5 outer repeats; 5 inner folds for model selection)",
+  "seed": 42,
+  "selection": "highest inner-fold mean ROC-AUC; Brier tie-breaker, reported as most frequent choice across 25 outer folds",
+  "calibration": "sigmoid calibration inside each outer fold for validation; five-fold sigmoid ensemble for the delivered model",
+  "operating_thresholds": {
+    "CAD": 0.35,
+    "LAD": 0.35,
+    "LCX": 0.35,
+    "RCA": 0.35
+  },
+  "preliminary_cv_metrics": {
+    "CAD": {
+      "selected_model": "logistic_regression",
+      "selection_count": 13,
+      "outer_folds": 25,
+      "cv_mean_roc_auc": 0.919375837720571,
+      "cv_mean_brier_score": 0.10412200855693367,
+      "operating_threshold": 0.35,
+      "cv_pr_auc": 0.9639514617688218
+    },
+    "LAD": {
+      "selected_model": "random_forest",
+      "selection_count": 24,
+      "outer_folds": 25,
+      "cv_mean_roc_auc": 0.8478027838827839,
+      "cv_mean_brier_score": 0.1579943564838559,
+      "operating_threshold": 0.35,
+      "cv_pr_auc": 0.8629002279263391
+    },
+    "LCX": {
+      "selected_model": "random_forest",
+      "selection_count": 24,
+      "outer_folds": 25,
+      "cv_mean_roc_auc": 0.7249784023153589,
+      "cv_mean_brier_score": 0.20757706102216428,
+      "operating_threshold": 0.35,
+      "cv_pr_auc": 0.5711689928555016
+    },
+    "RCA": {
+      "selected_model": "logistic_regression",
+      "selection_count": 15,
+      "outer_folds": 25,
+      "cv_mean_roc_auc": 0.7035880669519112,
+      "cv_mean_brier_score": 0.2079197297507377,
+      "operating_threshold": 0.35,
+      "cv_pr_auc": 0.5668451410851724
+    }
+  },
+  "limitations": [
+    "Small dataset; uncertain estimates",
+    "No external validation dataset or prospective evaluation",
+    "No external validation or independent calibration evaluation",
+    "Not for clinical use"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "CAD": {"label": "Overall coronary artery disease", "scene_target": null},
+  "LAD": {"label": "Left anterior descending", "scene_target": "LAD"},
+  "LCX": {"label": "Left circumflex", "scene_target": "LCX"},
+  "RCA": {"label": "Right coronary artery", "scene_target": "RCA"}
+}

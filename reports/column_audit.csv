@@ -1,0 +1,60 @@
+column,dtype,missing,unique
+Age,int64,0,46
+Weight,int64,0,54
+Length,int64,0,44
+Sex,str,0,2
+BMI,float64,0,263
+DM,int64,0,2
+HTN,int64,0,2
+Current Smoker,int64,0,2
+EX-Smoker,int64,0,2
+FH,int64,0,2
+Obesity,str,0,2
+CRF,str,0,2
+CVA,str,0,2
+Airway disease,str,0,2
+Thyroid Disease,str,0,2
+CHF,str,0,2
+DLP,str,0,2
+BP,int64,0,17
+PR,int64,0,21
+Edema,int64,0,2
+Weak Peripheral Pulse,str,0,2
+Lung rales,str,0,2
+Systolic Murmur,str,0,2
+Diastolic Murmur,str,0,2
+Typical Chest Pain,int64,0,2
+Dyspnea,str,0,2
+Function Class,int64,0,4
+Atypical,str,0,2
+Nonanginal,str,0,2
+Exertional CP,str,0,1
+LowTH Ang,str,0,2
+Q Wave,int64,0,2
+St Elevation,int64,0,2
+St Depression,int64,0,2
+Tinversion,int64,0,2
+LVH,str,0,2
+Poor R Progression,str,0,2
+BBB,str,0,3
+FBS,int64,0,113
+CR,float64,0,18
+TG,int64,0,147
+LDL,int64,0,110
+HDL,float64,0,47
+BUN,int64,0,33
+ESR,int64,0,58
+HB,float64,0,66
+K,float64,0,27
+Na,int64,0,25
+WBC,int64,0,78
+Lymph,int64,0,50
+Neut,int64,0,52
+PLT,int64,0,135
+EF-TTE,int64,0,11
+Region RWMA,int64,0,5
+VHD,str,0,4
+LAD,int64,0,2
+LCX,int64,0,2
+RCA,int64,0,2
+Cath,int64,0,2
