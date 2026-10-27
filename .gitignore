@@ -13,8 +13,5 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local run artifacts (regenerable via make train)
-# (models/ and reports/ are committed intentionally: they are the reviewed,
-#  validated deliverables. Uncomment to exclude and regenerate locally.)
-# models/*.joblib
-# reports/
+# Model artifacts are not committed (large binaries); regenerate with `make train`.
+# Reports in reports/ are committed.

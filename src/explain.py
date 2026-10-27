@@ -1,13 +1,14 @@
 from pathlib import Path
-import joblib, pandas as pd
+import pandas as pd
 from sklearn.inspection import permutation_importance
 ROOT=Path(__file__).resolve().parents[1]
-DATA=ROOT/"data/raw/z_alizadeh_sani_extension.xlsx"
+DATA=ROOT/"data/raw/dataset.csv"
 OUT=ROOT/"reports"
 def main():
-    df=pd.read_excel(DATA); X=df.drop(columns=["Cath","LAD","LCX","RCA"])
+    df=pd.read_csv(DATA); X=df.drop(columns=["Cath","LAD","LCX","RCA"])
     for target in ["CAD","LAD","LCX","RCA"]:
-        a=joblib.load(ROOT/"models"/f"{target.lower()}_model.joblib")
+        from predict import _load_artifact
+        a=_load_artifact(target.lower())
         y = df[a["source_column"]].map({"CAD": 1, "Normal": 0, "Stenotic": 1}).astype(int)
         result=permutation_importance(a["estimator"], X[a["feature_columns"]], y,
                                       scoring="neg_brier_score", n_repeats=10,

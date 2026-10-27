@@ -11,7 +11,7 @@ from sklearn.calibration import CalibratedClassifierCV, calibration_curve
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, brier_score_loss, roc_curve, precision_recall_curve, average_precision_score, confusion_matrix
 
 ROOT=Path(__file__).resolve().parents[1]
-DATA=ROOT/"data/raw/z_alizadeh_sani_extension.xlsx"
+DATA=ROOT/"data/raw/dataset.csv"
 OUT=ROOT/"models"; REPORTS=ROOT/"reports"
 OUT.mkdir(exist_ok=True); REPORTS.mkdir(exist_ok=True)
 TARGETS={"CAD":"Cath","LAD":"LAD","LCX":"LCX","RCA":"RCA"}
@@ -21,7 +21,7 @@ VALIDATION_NOTE="Nested repeated stratified 5-fold CV (5 outer repeats; 5 inner 
 OPERATING_THRESHOLDS={"CAD":0.35,"LAD":0.35,"LCX":0.35,"RCA":0.35}
 
 def load_data():
-    df=pd.read_excel(DATA)
+    df=pd.read_csv(DATA)
     mappings={"Cath":{"CAD":1,"Normal":0},"LAD":{"Stenotic":1,"Normal":0},
               "LCX":{"Stenotic":1,"Normal":0},"RCA":{"Stenotic":1,"Normal":0}}
     for c,m in mappings.items():
@@ -112,21 +112,15 @@ def write_reports(df, X, constants, rows, registry, nested_rows, qualities):
     for target, report in qualities.items():
         (REPORTS/f"quality_{target.lower()}.json").write_text(json.dumps(report,indent=2))
     (REPORTS/"thresholds.json").write_text(json.dumps({"thresholds":OPERATING_THRESHOLDS,"policy":"Fixed 0.35 recall-favoring operating point; not tuned on held-out outer predictions."},indent=2))
-    pd.DataFrame({"column": df.columns, "dtype": df.dtypes.astype(str),
-                  "missing": df.isna().sum().values,
-                  "unique": df.nunique(dropna=False).values}).to_csv(REPORTS/"column_audit.csv",index=False)
-    pd.DataFrame({"target": list(TARGETS),
-                  "positive_count": [int(df[c].sum()) for c in TARGETS.values()],
-                  "negative_count": [int((df[c] == 0).sum()) for c in TARGETS.values()]}).to_csv(REPORTS/"target_distribution.csv",index=False)
-    (REPORTS/"input_features.json").write_text(json.dumps(list(X.columns),indent=2))
     lines=["# Cardiovascular ML Workstream — Retraining Results", "",
            "## Validation status", "",
            f"{VALIDATION_NOTE}. Performance values below are held-out outer-fold estimates; model selection was performed only inside each outer-training fold.",
            "", "## Data audit", "",
-           f"- Workbook shape: {df.shape[0]} rows × {df.shape[1]} columns.",
+           f"- Dataset shape: {df.shape[0]} rows × {df.shape[1]} columns.",
            f"- Exact duplicate rows: {int(df.duplicated().sum())}.",
            "- Leakage columns excluded from every model: Cath, LAD, LCX, RCA.",
            f"- Constant features dropped: {', '.join(constants) if constants else 'none'}.",
+           f"- Class balance (positive/negative): {', '.join(f'{target} {int(df[c].sum())}/{int((df[c] == 0).sum())}' for target, c in TARGETS.items())}.",
            "", "## Preliminary CV results", "",
            "| Target | Most-selected model | ROC-AUC (mean) | Brier (mean) |", "|---|---|---:|---:|"]
     for target, result in registry.items():
@@ -141,7 +135,6 @@ def main():
     if set(X.columns)&FORBIDDEN: raise AssertionError("Leakage columns in X")
     constants=[c for c in X.columns if X[c].nunique(dropna=False)<=1]
     X=X.drop(columns=constants)
-    (REPORTS/"dropped_constant_features.json").write_text(json.dumps(constants,indent=2))
     rows=[]; registry={}; nested_rows=[]; qualities={}
     for target,labelcol in TARGETS.items():
         y=df[labelcol].astype(int)
@@ -160,13 +153,11 @@ def main():
         registry[target]={"selected_model":name,"selection_count":nested["selection_count"],"outer_folds":nested["outer_folds"],"cv_mean_roc_auc":nested["roc_auc_mean"],"cv_mean_brier_score":nested["brier_mean"],"operating_threshold":OPERATING_THRESHOLDS[target],"cv_pr_auc":qualities[target]["pr_auc"]}
         print(f"{target}: {name}; nested CV ROC-AUC {nested['roc_auc_mean']:.3f}; Brier {nested['brier_mean']:.3f}")
     write_reports(df, X, constants, rows, registry, nested_rows, qualities)
-    (OUT/"model_registry.json").write_text(json.dumps(registry,indent=2))
     (OUT/"model_card.json").write_text(json.dumps({"dataset":"UCI Z-Alizadeh Sani Extension","records":len(df),
       "original_columns":df.shape[1],"input_features":X.shape[1],"targets":list(TARGETS),
       "validation":VALIDATION_NOTE,"seed":SEED,
       "selection":"highest inner-fold mean ROC-AUC; Brier tie-breaker, reported as most frequent choice across 25 outer folds","calibration":"sigmoid calibration inside each outer fold for validation; five-fold sigmoid ensemble for the delivered model","operating_thresholds":OPERATING_THRESHOLDS,
       "preliminary_cv_metrics":registry,
-      "limitations":["Small dataset; uncertain estimates","No external validation dataset or prospective evaluation",
-                     "No external validation or independent calibration evaluation","Not for clinical use"]},indent=2))
+      "limitations":["Small dataset; uncertain estimates","No external validation or prospective evaluation","No independent external calibration assessment","Not for clinical use"]},indent=2))
     print("Saved reports/cv_model_comparison.csv and four calibrated model artifacts.")
 if __name__=="__main__": main()

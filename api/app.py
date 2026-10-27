@@ -1,3 +1,5 @@
+# Local entrypoint: run with `uvicorn api.app:app`. The Vercel entrypoint
+# (app/main.py) is the same API, kept separate because Vercel expects app/main.py.
 from __future__ import annotations
 
 import json
@@ -42,7 +44,7 @@ def band(probability: float) -> str:
 
 @lru_cache
 def dataset() -> pd.DataFrame:
-    return pd.read_excel(ROOT / "data/raw/z_alizadeh_sani_extension.xlsx")
+    return pd.read_csv(ROOT / "data/raw/dataset.csv")
 
 @lru_cache
 def feature_columns() -> list[str]:

@@ -1,3 +1,5 @@
+# Vercel entrypoint: the same API as api/app.py, kept as a separate file
+# because Vercel's FastAPI mode expects the app at app/main.py.
 from __future__ import annotations
 
 import json

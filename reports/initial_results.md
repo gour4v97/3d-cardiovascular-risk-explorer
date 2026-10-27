@@ -6,7 +6,8 @@ Nested repeated stratified 5-fold CV (5 outer repeats; 5 inner folds for model s
 
 ## Data audit
 
-- Workbook shape: 303 rows × 59 columns.
+- Dataset shape: 303 rows × 59 columns.
+- Class balance (positive/negative): CAD 216/87, LAD 177/126, LCX 119/184, RCA 114/189.
 - Exact duplicate rows: 0.
 - Leakage columns excluded from every model: Cath, LAD, LCX, RCA.
 - Constant features dropped: Exertional CP.
