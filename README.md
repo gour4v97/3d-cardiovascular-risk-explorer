@@ -1,6 +1,6 @@
 # 3D Cardiovascular Risk Explorer
 
-Live demo: https://3d-cardiovascular-risk-explorer-cron5njja-pgd4.vercel.app
+Live demo: https://3d-cardiovascular-risk-explorer-riu0bui3r-pgd4.vercel.app
 
 ## Quick start
 Python 3.10+ recommended.
