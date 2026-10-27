@@ -15,7 +15,9 @@ TARGETS=("CAD","LAD","LCX","RCA")
 
 @lru_cache
 def load_artifact(target: str) -> dict:
-    return joblib.load(ROOT/"models"/f"{target.lower()}_model.joblib")
+    # Reuse predict's chunk-aware loader: lad/lcx artifacts are stored split.
+    from predict import _load_artifact
+    return _load_artifact(target.lower())
 
 def _pipeline(artifact: dict):
     return artifact["estimator"].calibrated_classifiers_[0].estimator
@@ -31,7 +33,7 @@ def _bundle(target: str):
     model=pipeline.named_steps["model"]
     names=list(pipeline.named_steps["prep"].get_feature_names_out())
     if hasattr(model,"coef_"):
-        data=pd.read_excel(ROOT/"data/raw/z_alizadeh_sani_extension.xlsx")[artifact["feature_columns"]].sample(20,random_state=42)
+        data=pd.read_csv(ROOT/"data/raw/dataset.csv")[artifact["feature_columns"]].sample(20,random_state=42)
         background=pipeline.named_steps["prep"].transform(data)
         # Exact interventional LinearExplainer values: beta * (x - E[background]).
         # This avoids expensive correlation estimation for the live single-patient path.
@@ -73,7 +75,7 @@ def explain_features(target: str, features: dict) -> dict:
     return {"target":target,"method":"LinearExplainer" if artifact["model_name"]=="logistic_regression" else "TreeExplainer","scale":"raw model output before sigmoid calibration","top_positive":positive,"top_negative":negative,"contributions":contributions}
 
 def write_global_summaries() -> None:
-    df=pd.read_excel(ROOT/"data/raw/z_alizadeh_sani_extension.xlsx")
+    df=pd.read_csv(ROOT/"data/raw/dataset.csv")
     reports=ROOT/"reports"
     for target in TARGETS:
         artifact,pipeline,names,explainer=_bundle(target); columns=artifact["feature_columns"]
