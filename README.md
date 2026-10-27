@@ -25,7 +25,7 @@ The bundled model artifacts were trained on the uploaded dataset in the preparat
 - `src/shap_explain.py`: model-specific SHAP summaries (LinearExplainer for logistic models, TreeExplainer for random forests) and patient-level SHAP helpers.
 - `api/app.py`: stateless FastAPI API with `/schema`, `/examples`, `/predict`, `/metrics`, and `/health`, for local use with `uvicorn`.
 - `app/main.py`: the same API adapted as the serverless entrypoint for the Vercel deployment (reads `data/raw/dataset.csv` instead of the workbook; `.python-version` is 3.12).
-- `web/`: Three.js Foundation-phase viewer, patient form, risk cards, and persistent safety banner.
+- `web/`: Three.js viewer, patient form, risk cards, and persistent safety banner. The heart is an anatomical BodyParts3D mesh (`web/heart.json`, `web/lad.json`, `web/lcx.json`, `web/rca.json`; see `assets/ASSETS.md` for source and licence), not the previous procedural sphere.
 - `config/vessels.json`: stable API-to-viewer target mapping.
 - `assets/ASSETS.md`: asset and licensing record.
 - `reports/initial_results.md`: results and caveats.
@@ -50,9 +50,11 @@ make test
 On Windows without `make`, run the Python commands shown above. Install the pinned dependencies first with `pip install -r requirements.txt`.
 
 ## Current implementation status
-The API and browser viewer are implemented: entering or loading a dataset patient calls `POST /predict`, updates four risk cards, and colors selectable LAD, LCX, and RCA tube geometry in a lightweight 3D scene. The API is stateless and has no patient storage. Model-specific SHAP contributions (`POST /explain/{target}`), calibrated fold-ensemble uncertainty ranges, documented recall-favoring thresholds (fixed 0.35), and quality charts (ROC, PR, calibration, confusion matrix) are all implemented and served from `reports/quality_*.json`.
+The API and browser viewer are implemented: entering or loading a dataset patient calls `POST /predict`, updates four risk cards, and colors anatomical LAD, LCX, and RCA vessel meshes (BodyParts3D, CC BY-SA 2.1 JP) in a 3D scene. The API is stateless and has no patient storage. Model-specific SHAP contributions (`POST /explain/{target}`), calibrated fold-ensemble uncertainty ranges, documented recall-favoring thresholds (fixed 0.35), and quality charts (ROC, PR, calibration, confusion matrix) are all implemented and served from `reports/quality_*.json`.
 
-Remaining before release: browser end-to-end and GPU-off performance tests on a local machine, clinician-curated reference ranges, an open-licensed anatomical heart mesh (current geometry is procedural), and the demo video. Hosting is done: see the live demo link above.
+Remaining before release: browser end-to-end and GPU-off performance tests on a local machine, clinician-curated reference ranges, and the demo video. Hosting is done: see the live demo link above.
 
 ## License
 Code in this repository is MIT licensed (see `LICENSE`). The UCI Z-Alizadeh Sani dataset is CC BY 4.0 and covers only the data.
+
+The anatomical heart mesh in `web/*.json` is BodyParts3D 4.3i, CC BY-SA 2.1 JP — see `assets/ASSETS.md`. That licence covers the mesh only, not the MIT-licensed code.
