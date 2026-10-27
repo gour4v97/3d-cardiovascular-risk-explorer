@@ -77,7 +77,7 @@ out={}
 for grp, items in raw.items():
     pos=[]; idx=[]
     for _, verts, faces in items:
-        off=len(pos)
+        off=len(pos)//3  # pos is a flat float list: vertex count, not float count
         for x,y,zz in verts:
             # (bp_x, bp_y, bp_z) -> (three_x, three_y, three_z)
             pos.extend([round((x-c[0])*s,4), round((zz-c[2])*s,4), round(-(y-c[1])*s,4)])
