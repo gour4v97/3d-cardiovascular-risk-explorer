@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#071622">
+  <meta name="theme-color" content="#f4f6fb">
   <title>3D Cardiovascular Risk Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -18,13 +21,14 @@
         <h1>3D Cardiovascular <span>Risk Explorer</span></h1>
       </div>
     </div>
-    <div class="header-status"><span class="status-dot"></span>Interactive educational prototype</div>
+    <div class="header-controls">
+      <nav class="tabs" aria-label="Application view">
+        <button class="tab" id="patientTab" aria-selected="true">Patient explorer</button>
+        <button class="tab" id="qualityTab" aria-selected="false">Model quality</button>
+      </nav>
+      <div class="header-status"><span class="status-dot"></span>Interactive educational prototype</div>
+    </div>
   </header>
-
-  <nav class="tabs" aria-label="Application view">
-    <button class="tab" id="patientTab" aria-selected="true">Patient explorer</button>
-    <button class="tab" id="qualityTab" aria-selected="false">Model quality</button>
-  </nav>
 
   <main id="patientView" class="layout">
     <section class="panel input-panel">
