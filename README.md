@@ -19,7 +19,7 @@ CAD and LAD meet the project's internal targets (0.85 / 0.80). LCX and RCA do no
 
 ## Run locally
 
-Use Python 3.11, 3.12, or 3.13.
+Use Python 3.12 or 3.13.
 
 ```bash
 python -m venv .venv
@@ -38,11 +38,10 @@ pip install -r requirements.txt -r requirements-dev.txt
 pytest -q
 ```
 
-The data and pipeline tests always run. The API tests that need trained
-model artifacts are skipped until you run `python src/train.py`, because
-the model binaries are not committed.
+The committed model binaries are enough to run the whole suite without a
+training run; `python src/train.py` regenerates them after pipeline changes.
 
-GitHub Actions runs the test suite on Python 3.11 and 3.12 for pushes and pull requests.
+GitHub Actions runs the test suite on Python 3.12 and 3.13 for pushes and pull requests.
 
 ## Files
 
