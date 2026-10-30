@@ -1,6 +1,6 @@
 # 3D Cardiovascular Risk Explorer
 
-Live demo: https://3d-cardiovascular-risk-explorer-2onthy24j-pgd4.vercel.app
+Live demo: https://3d-cardiovascular-risk-explorer-pgd4.vercel.app
 
 An educational web app that estimates coronary-stenosis likelihood for CAD, LAD, LCX and RCA from 54 clinical features, shows the three vessels on an anatomical 3D heart, and explains each model output with SHAP contributions. It is not a diagnostic device and must not be used for clinical decision-making.
 
