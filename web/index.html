@@ -1,4 +1,88 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>3D Cardiovascular Risk Explorer</title><style>
-body{margin:0;background:#09121f;color:#edf3fb;font:14px system-ui,sans-serif}#safety{position:sticky;top:0;z-index:3;background:#7c2d12;padding:10px;text-align:center;font-weight:700}.tabs{display:flex;gap:8px;padding:12px 12px 0}.tab{width:auto;margin:0}.tab[aria-selected="true"]{background:#e9c46a;color:#09121f}.layout{display:grid;grid-template-columns:280px 1fr 310px;gap:12px;padding:12px}.panel{background:#132238;border:1px solid #28425e;border-radius:10px;padding:12px}#viewer{min-height:580px;padding:0;overflow:hidden}canvas{display:block;width:100%;height:580px}label{display:block;margin:9px 0 3px;color:#b9cae0}input,select,button{width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #47637f;background:#0c1828;color:#fff}button{background:#147d9b;margin-top:12px;font-weight:700;cursor:pointer}.card{border-left:6px solid #777;margin:8px 0;padding:10px;background:#0c1828;border-radius:6px}.prob{font-size:24px;font-weight:700}.muted{color:#b9cae0;font-size:12px}.selected{outline:2px solid #fff}#form{max-height:620px;overflow:auto}h1{font-size:20px;margin:0 0 8px}h2{font-size:16px}.notice{padding:9px;background:#25344a;border-radius:6px;margin:8px 0}.delta{font-weight:700}.quality{margin:12px}.quality-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.quality-card canvas{height:150px}.drivers{width:100%;border-collapse:collapse}.drivers td,.drivers th{border-bottom:1px solid #28425e;padding:5px;text-align:left}.positive{color:#f4a261}.negative{color:#2a9d8f}@media(max-width:900px){.layout{grid-template-columns:1fr}#viewer{order:-1}}</style></head>
-<body><div id="safety">Decision support and education only. Not a diagnosis. Not a substitute for angiography or clinical judgment.</div><nav class="tabs"><button class="tab" id="patientTab" aria-selected="true">Patient</button><button class="tab" id="qualityTab" aria-selected="false">Model quality</button></nav><main id="patientView" class="layout"><section class="panel"><h1>Patient inputs</h1><select id="example"><option>Load an example patient</option></select><form id="form"></form><button id="predict">Update predicted likelihood</button></section><section class="panel" id="viewer"><div id="meshLoading" style="padding:20px;text-align:center">Loading anatomical heart mesh…</div></section><aside class="panel"><h1>Predicted likelihood</h1><div id="cards" class="muted">Load an example patient to begin.</div><h2>Selected vessel</h2><div id="detail" class="notice">Click an artery in the 3D viewer or a card.</div><h2>Why this model score?</h2><div id="explanation" class="muted">Select a risk card or artery to load the top SHAP drivers.</div><p class="muted">SHAP describes the model's raw score before sigmoid calibration; it does not show causes in the body.</p></aside></main><section id="qualityView" class="panel quality" hidden><h1>Model quality</h1><p class="muted" id="qualityNote">Loading nested cross-validation results…</p><div id="qualityGrid" class="quality-grid"></div></section><footer class="panel" style="margin:12px"><p class="muted">Heart mesh: BodyParts3D 4.3i, © Database Center for Life Science, CC BY-SA 2.1 JP (https://lifesciencedb.jp/bp3d/). Coronary vessels are coloured by predicted risk; the mesh is an educational reference model, not patient-specific anatomy.</p></footer><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script><script type="module" src="./app.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071622">
+  <title>3D Cardiovascular Risk Explorer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="safety">Decision support and education only. Not a diagnosis. Not a substitute for angiography or clinical judgment.</div>
+
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">♥</div>
+      <div>
+        <p class="eyebrow">Clinical ML explorer</p>
+        <h1>3D Cardiovascular <span>Risk Explorer</span></h1>
+      </div>
+    </div>
+    <div class="header-status"><span class="status-dot"></span>Interactive educational prototype</div>
+  </header>
+
+  <nav class="tabs" aria-label="Application view">
+    <button class="tab" id="patientTab" aria-selected="true">Patient explorer</button>
+    <button class="tab" id="qualityTab" aria-selected="false">Model quality</button>
+  </nav>
+
+  <main id="patientView" class="layout">
+    <section class="panel input-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Clinical profile</p>
+          <h2>Patient inputs</h2>
+        </div>
+      </div>
+      <p class="input-note">Start with a dataset example, then adjust the values to explore model behavior.</p>
+      <select id="example" aria-label="Example patient"><option>Load an example patient</option></select>
+      <form id="form"></form>
+      <button class="primary-button" id="predict">Update predicted likelihood</button>
+    </section>
+
+    <section class="panel viewer-panel" id="viewer">
+      <div class="viewer-overlay">
+        <p class="eyebrow">Interactive anatomy</p>
+        <h2>Coronary risk map</h2>
+        <p>Drag to rotate the reference model. Select an artery or risk card to inspect its explanation.</p>
+      </div>
+      <div id="meshLoading" class="mesh-loading">Loading anatomical heart mesh…</div>
+      <div class="viewer-legend" aria-label="Risk colour legend">
+        <span><i class="low"></i>Lower</span>
+        <span><i class="mid"></i>Intermediate</span>
+        <span><i class="high"></i>Higher</span>
+      </div>
+      <div class="mesh-hint">Drag to rotate · Scroll to zoom</div>
+    </section>
+
+    <aside class="panel results-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Model output</p>
+          <h2>Predicted likelihood</h2>
+        </div>
+      </div>
+      <div id="cards" class="muted">Load an example patient to begin.</div>
+      <h3>Selected vessel</h3>
+      <div id="detail" class="notice">Click an artery in the 3D viewer or select a risk card.</div>
+      <h3>Why this score?</h3>
+      <div id="explanation" class="muted">Select a risk card or artery to load the SHAP feature contributions.</div>
+      <p class="muted">SHAP describes the model's raw score before sigmoid calibration; it does not show causes in the body.</p>
+    </aside>
+  </main>
+
+  <section id="qualityView" class="panel quality" hidden>
+    <p class="eyebrow">Validation dashboard</p>
+    <h1>Model quality</h1>
+    <p class="muted" id="qualityNote">Loading nested cross-validation results…</p>
+    <div id="qualityGrid" class="quality-grid"></div>
+  </section>
+
+  <footer class="panel app-footer">
+    <p>Heart mesh: BodyParts3D 4.3i, © Database Center for Life Science, CC BY-SA 2.1 JP. Coronary vessels are coloured by predicted risk; the mesh is an educational reference model, not patient-specific anatomy.</p>
+  </footer>
+
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
