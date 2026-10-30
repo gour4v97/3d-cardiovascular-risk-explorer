@@ -38,6 +38,10 @@ pip install -r requirements.txt -r requirements-dev.txt
 pytest -q
 ```
 
+The data and pipeline tests always run. The API tests that need trained
+model artifacts are skipped until you run `python src/train.py`, because
+the model binaries are not committed.
+
 GitHub Actions runs the test suite on Python 3.11 and 3.12 for pushes and pull requests.
 
 ## Files
