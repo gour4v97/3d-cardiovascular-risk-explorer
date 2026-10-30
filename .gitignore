@@ -13,5 +13,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Model artifacts are not committed (large binaries); regenerate with `make train`.
+# Model artifacts are committed (about 5 MB) so tests and deployments work
+# without retraining; regenerate with `make train` after changing the pipeline.
 # Reports in reports/ are committed.

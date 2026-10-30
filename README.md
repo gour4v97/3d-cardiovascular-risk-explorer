@@ -19,7 +19,7 @@ CAD and LAD meet the project's internal targets (0.85 / 0.80). LCX and RCA do no
 
 ## Run locally
 
-Use Python 3.11 or 3.12.
+Use Python 3.11, 3.12, or 3.13.
 
 ```bash
 python -m venv .venv
@@ -29,7 +29,7 @@ python src/train.py
 python -m uvicorn api.app:app --port 8000
 ```
 
-Open http://localhost:8000. The training script regenerates model artifacts and reports. Model binaries are not committed because they are large.
+Open http://localhost:8000. The training script regenerates model artifacts and reports; the committed model binaries (about 5 MB) are enough to run the app and tests without retraining.
 
 ## Test and continuous integration
 
